@@ -1,0 +1,81 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/aes.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-utf8.min.js"></script>
+
+    <script type="text/javascript">
+        function do_encrypt() {
+            var plaintext = document.getElementById("i_plaintext").value;
+            var key = document.getElementById("e_key").value;
+            var ciphertext = CryptoJS.AES.encrypt(plaintext, key);
+            document.getElementById("o_ciphertext").value = ciphertext;
+        }
+
+        function do_decrypt() {
+            var ciphertext = document.getElementById("i_ciphertext").value;
+            var key = document.getElementById("d_key").value;
+            var plaintext = CryptoJS.AES.decrypt(ciphertext, key);
+            document.getElementById("o_plaintext").value = plaintext.toString(CryptoJS.enc.Utf8);
+        }
+    </script>
+    <link rel </head>
+
+    <body>
+        <center>
+            <table frame="box">
+                <caption>
+                    <h2>Encryption Tool</h2></caption>
+                <tr>
+                    <td>
+                        <textarea rows="10" cols="75%" id="i_plaintext" placeholder="Your message"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea rows="1" cols="75%" id="e_key" placeholder="Encryption key"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button onclick="do_encrypt()" style="width: 100%">Encrypt</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea id="o_ciphertext" rows="5" cols="75%" onclick="select()" placeholder="Output cipher text"></textarea>
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+            <table frame="box">
+                <caption>
+                    <h2>Decryption Tool</h2></caption>
+                <tr>
+                    <td>
+                        <textarea id="i_ciphertext" rows="10" cols="75%" placeholder="Encrypted message"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea id="d_key" rows="1" cols="75%" placeholder="Decryption key"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button onclick="do_decrypt()" style="width: 100%">Decrypt</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea id="o_plaintext" rows="3" cols="75%" onclick="select()" placeholder="Decrypted message"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+
+</html>
