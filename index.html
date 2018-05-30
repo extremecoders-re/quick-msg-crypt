@@ -5,20 +5,21 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/aes.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/enc-utf8.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 
     <script type="text/javascript">
         function do_encrypt() {
             var plaintext = document.getElementById("i_plaintext").value;
             var key = document.getElementById("e_key").value;
-            var ciphertext = CryptoJS.AES.encrypt(plaintext, key);
+            var ciphertext = CryptoJS.AES.encrypt(LZString.compressToUTF16(plaintext), key);
             document.getElementById("o_ciphertext").value = ciphertext;
         }
 
         function do_decrypt() {
             var ciphertext = document.getElementById("i_ciphertext").value;
             var key = document.getElementById("d_key").value;
-            var plaintext = CryptoJS.AES.decrypt(ciphertext, key);
-            document.getElementById("o_plaintext").value = plaintext.toString(CryptoJS.enc.Utf8);
+            var plaintext = CryptoJS.AES.decrypt(ciphertext, key).toString(CryptoJS.enc.Utf8);
+            document.getElementById("o_plaintext").value = LZString.decompressFromUTF16(plaintext);
         }
     </script>   
 
