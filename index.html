@@ -1,6 +1,15 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Quick Message Crypt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/aes.min.js"></script>
@@ -9,73 +18,45 @@
 
     <script type="text/javascript">
         function do_encrypt() {
-            var plaintext = document.getElementById("i_plaintext").value;
-            var key = document.getElementById("e_key").value;
-            var ciphertext = CryptoJS.AES.encrypt(LZString.compressToUTF16(plaintext), key);
-            document.getElementById("o_ciphertext").value = ciphertext;
+            var plaintext = $("#input").val();
+            var key = $("#key").val();
+            if (plaintext.length > 0 && key.length > 0) {
+                var ciphertext = CryptoJS.AES.encrypt(LZString.compressToUTF16(plaintext), key);
+                $("#output").val(ciphertext);
+                $("#input").val("");
+            }
         }
 
         function do_decrypt() {
-            var ciphertext = document.getElementById("i_ciphertext").value;
-            var key = document.getElementById("d_key").value;
-            var plaintext = CryptoJS.AES.decrypt(ciphertext, key).toString(CryptoJS.enc.Utf8);
-            document.getElementById("o_plaintext").value = LZString.decompressFromUTF16(plaintext);
+            var ciphertext = $("#input").val();
+            var key = $("#key").val();
+            if (ciphertext.length > 0 && key.length > 0) {
+                var plaintext = CryptoJS.AES.decrypt(ciphertext, key).toString(CryptoJS.enc.Utf8);
+                $("#output").val(LZString.decompressFromUTF16(plaintext));
+                $("#input").val("");
+            }
         }
-    </script>   
+    </script>
 
     <body>
-        <center>
-            <table frame="box">
-                <caption>
-                    <h2>Encryption Tool</h2></caption>
-                <tr>
-                    <td>
-                        <textarea rows="10" cols="75%" id="i_plaintext" placeholder="Your message"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <textarea rows="1" cols="75%" id="e_key" placeholder="Encryption key"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button onclick="do_encrypt()" style="width: 100%">Encrypt</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <textarea id="o_ciphertext" rows="5" cols="75%" onclick="select()" placeholder="Output cipher text"></textarea>
-                    </td>
-                </tr>
-            </table>
+        <div class="container text-center" style="padding-top: 25px">
+            <h2>Quick Message Crypt</h2>
+            <div class="form-group">
+                <textarea class="form-control" rows="10" id="input" placeholder="Input"></textarea>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="1" id="key" placeholder="Key"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="do_encrypt()">Encrypt</button>
+                <button class="btn btn-primary" onclick="do_decrypt()">Decrypt</button>
 
-            <br>
-            <table frame="box">
-                <caption>
-                    <h2>Decryption Tool</h2></caption>
-                <tr>
-                    <td>
-                        <textarea id="i_ciphertext" rows="10" cols="75%" placeholder="Encrypted message"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <textarea id="d_key" rows="1" cols="75%" placeholder="Decryption key"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button onclick="do_decrypt()" style="width: 100%">Decrypt</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <textarea id="o_plaintext" rows="5" cols="75%" onclick="select()" placeholder="Decrypted message"></textarea>
-                    </td>
-                </tr>
-            </table>
-        </center>
+            </div>
+            <div class="form-group">
+                <textarea readonly class="form-control" id="output" rows="5" onclick="select()" placeholder="Output"></textarea>
+            </div>
+        </div>
     </body>
 
 </html>
+    
